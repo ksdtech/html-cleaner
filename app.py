@@ -41,7 +41,7 @@ def index():
 def show():
   source = request.forms.get('source').strip()
   soup = None
-  o = urlparse(source.strip())
+  o = urlparse(source)
   if o.scheme == 'http' or o.scheme == 'https':
     page = urlopen(source)
     soup = BeautifulSoup(page.read())
