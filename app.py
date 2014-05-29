@@ -16,6 +16,7 @@ def clean(soup):
   rejected = { }
   for tag in soup.findAll(True):
     check_p = True
+    del tag['class']
     if tag.name in TRANS_TAGS:
       tag.name = TRANS_DICT.get(tag.name, 'p')
     elif tag.name not in VALID_TAGS:
@@ -45,7 +46,11 @@ def show():
   if o.scheme == 'http' or o.scheme == 'https':
     page = urlopen(source)
     soup = BeautifulSoup(page.read())
-    div = soup.find('div', class_='ui-article')
+    div = soup.find('div', class_='file-library')
+    if div:
+      div = div.find('ul')
+    else:
+      div = soup.find('div', class_='ui-article')
     if div:
       soup = div
   else:
