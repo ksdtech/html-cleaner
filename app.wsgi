@@ -5,7 +5,7 @@ import sys
 my_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(my_dir)
 
-TESTING = True
+TESTING = False
 if TESTING:
   def application(environ, start_response):
       status = '200 OK'
