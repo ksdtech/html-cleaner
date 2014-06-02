@@ -11,8 +11,7 @@ In sites/0002\_any\_80\_kentweb.kentfieldschools.org.conf:
 
      <IfModule mod_wsgi.c>
         WSGIDaemonProcess cleaner user=www group=www processes=1 threads=5
-        WSGIScriptAlias /cleaner /Volumes/kweb-d0-content/webaps-root/clean\
-er/app.wsgi
+        WSGIScriptAlias /cleaner /Volumes/kweb-d0-content/webaps-root/cleaner/app.wsgi
 
         <Directory /Volumes/kweb-d0-content/webapps-root/cleaner>
             WSGIProcessGroup cleaner
