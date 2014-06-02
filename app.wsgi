@@ -1,7 +1,9 @@
 import os
+import sys
 
 # Change working directory so relative paths (and template lookup) work again
-os.chdir(os.path.dirname(__file__))
+my_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(my_dir)
 
 # ... build or import your bottle application here ...
 import bottle
