@@ -1,6 +1,9 @@
 import sys
+
+using_bs4 = False
 try:
   from bs4 import BeautifulSoup
+  using_bs4 = True
 except:
   from BeautifulSoup import BeautifulSoup
 try:
@@ -9,6 +12,7 @@ try:
 except:
   from urlparse import urlparse
   from urllib2 import urlopen
+
 from bottle import route, get, post, request, run, template, view
 
 VALID_TAGS = [ 'p', 'br', 'ul', 'ol', 'li', 'a', 'img', 'table', 'tbody', 'tr', 'th', 'td' ]
@@ -52,11 +56,18 @@ def show():
   if o.scheme == 'http' or o.scheme == 'https':
     page = urlopen(source)
     soup = BeautifulSoup(page.read())
-    div = soup.find('div', class_='file-library')
+    div = None
+    if using_bs4:
+      div = soup.find('div', class_='file-library')
+    else:
+      div = soup.find('div', { 'class': 'file-library' })
     if div:
       div = div.find('ul')
     else:
-      div = soup.find('div', class_='ui-article')
+      if using_bs4:
+        div = soup.find('div', class_='ui-article')
+      else:
+        div = soup.find('div', { 'class': 'ui-article' })
     if div:
       soup = div
   else:
