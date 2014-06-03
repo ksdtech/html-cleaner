@@ -4,6 +4,7 @@ import sys
 # Change working directory so relative paths (and template lookup) work again
 my_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(my_dir)
+os.chdir(my_dir)
 
 TESTING = False
 if TESTING:
