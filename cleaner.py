@@ -1,7 +1,15 @@
+import sys
+try:
+  from bs4 import BeautifulSoup
+except:
+  from BeautifulSoup import BeautifulSoup
+try:
+  from urllib.parse import urlparse
+  from urllib.request import urlopen
+except:
+  from urlparse import urlparse
+  from urllib2 import urlopen
 from bottle import route, get, post, request, run, template, view
-from bs4 import BeautifulSoup
-from urlparse import urlparse
-from urllib2 import urlopen
 
 VALID_TAGS = [ 'p', 'br', 'ul', 'ol', 'li', 'a', 'img', 'table', 'tbody', 'tr', 'th', 'td' ]
 TRANS_DICT = { 
@@ -21,13 +29,11 @@ def clean(soup):
       tag.name = TRANS_DICT.get(tag.name, 'p')
     elif tag.name not in VALID_TAGS:
       rejected[tag.name] = True
-      tag.unwrap()
+      tag.replaceWithChildren() # tag.unwrap() in bs4
       check_p = False
     if check_p and tag.name == 'p' and tag.parent.name == 'p':
-      tag.parent.unwrap()
-
+      tag.parent.replaceWithChildren() # tag.parent.unwrap() in bs4
   return rejected
-
 
 @get('/')
 @view('cleaner')
@@ -59,4 +65,5 @@ def show():
   cleaned = soup.prettify()
   return dict(source=source, cleaned=cleaned, rejected=rejected)
 
-# run(host='0.0.0.0', port=8098)
+if __name__ == '__main__':
+  run(host='0.0.0.0', port=8098)
