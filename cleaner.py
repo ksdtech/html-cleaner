@@ -10,6 +10,9 @@ try:
 
   def find_tag_with_class(soup, tagname, classname):
     return soup.find(tagname, class_=classname)
+    
+  def find_tag_with_id(soup, tagname, id):
+    return soup.find(tagname, id=id)
 except:
   from BeautifulSoup import BeautifulSoup
   def unwrap(tag):
@@ -17,6 +20,9 @@ except:
 
   def find_tag_with_class(soup, tagname, classname):
     return soup.find(tagname, { 'class': classname })
+
+  def find_tag_with_id(soup, tagname, id):
+    return soup.find(tagname, { 'id': id })
 
 try:
   from urllib.parse import urlparse
@@ -69,11 +75,15 @@ def show():
   if o.scheme == 'http' or o.scheme == 'https':
     page = urlopen(source)
     soup = BeautifulSoup(page.read())
-    div = find_tag_with_class(soup, 'div', 'file-library')
-    if div:
-      div = div.find('ul')
+    dif = None
+    if o.netloc == 'sites.google.com':
+      div = find_tag_with_id(soup, 'div', 'sites-canvas-main-content')
     else:
-      div = find_tag_with_class(soup, 'div', 'ui-article')
+      div = find_tag_with_class(soup, 'div', 'file-library')
+      if div:
+        div = div.find('ul')
+      else:
+        div = find_tag_with_class(soup, 'div', 'ui-article')
     if div:
       soup = div
   else:
